@@ -1,0 +1,16 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // "editor.codeActionsOnSave": {
+  //   "source.fixAll.eslint": "explicit",
+  //   "source.organizeImports": "explicit"
+  // },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "json.validate.enable": true,
+  "files.associations": {
+    "*.json": "json"
+  },
+  "files.eol": "\n"
+}

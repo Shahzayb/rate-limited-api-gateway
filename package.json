@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch src/index.ts --env-file=.env",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start:local": "node --env-file=.env dist/index.js",
+    "start": "node dist/index.js",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +24,9 @@
   },
   "type": "module",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "pg": "^8.22.0",
+    "redis": "^6.1.0"
   },
   "devDependencies": {
     "@eslint/css": "^1.4.0",

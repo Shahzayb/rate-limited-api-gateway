@@ -2,12 +2,12 @@
 
 ## Current Work Focus
 
-- Docker compose setup for redis, postgres, and the server with env
+- Implemented the naive rate limit middleware in `ratelimit.ts`, including `updateRequestWindow`, `getRequestWindow`, and integration with a new configuration loading system.
 
 ## Recent Changes
 
+- Docker compose setup for redis, postgres, and the server with env
 - **Service Integration**: Implemented environment variable loading using `dotenv`, Redis client connection, and PostgreSQL connection pooling. Configured graceful shutdown for both services.
-
 - **Memory Bank Initialization**: The `memory-bank` directory and initial core files (`projectbrief.md`, `productContext.md`) have been created and populated.
 - **Codebase Analysis**: An initial analysis of `src/index.ts`, `src/middlewares/ratelimit.ts`, `package.json`, `tsconfig.json`, and `pnpm-lock.yaml` has been performed to extract architectural, technical, and implementation details.
 - Complete the creation and population of the remaining core Memory Bank files: `systemPatterns.md`, `techContext.md`, and `progress.md`.
@@ -16,12 +16,10 @@
 
 ## Next Steps
 
-1.  Proceed with planning the implementation of Redis integration and atomic operations for the rate limiting middleware, now that the connections are established.
+1. Race Conditions and Concurrency handling of the ratelimiter.
 
 ## Active Decisions and Considerations
 
-- **Lua Script Management**: Decide on a strategy for managing and loading Redis Lua scripts (e.g., inline in code, separate files).
-- **Configuration**: How to manage rate limit configurations (e.g., environment variables, external config file, dynamic from Redis).
 - **Error Handling**: Define robust error handling for Redis connection issues and rate limiting failures.
 
 ## Important Patterns and Preferences

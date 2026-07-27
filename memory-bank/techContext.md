@@ -19,19 +19,23 @@
 
 ### Using Docker Compose
 
-1.  Ensure Docker and Docker Compose are installed.
-2.  Copy `.env.template` to `.env`: `cp .env.template .env`.
-3.  Start services: `docker-compose up --build -d`.
-4.  Stop services: `docker-compose down`.
+1.  Ensure Docker and Docker Compose are installed
+2.  Copy `.env.template` to `.env`: `cp .env.template .env`
+3.  Start services: `docker-compose up --build -d`
+4.  Run migrations: `docker compose exec node_server pnpm run migrate`
+5.  Seed data: `docker compose exec node_server pnpm run seed`
+6.  Stop services: `docker-compose down`
 
 ### Manual Setup
 
-1.  **Node.js**: Ensure Node.js is installed (version compatible with Express.js v5 and TypeScript v7).
-2.  **pnpm**: Install pnpm globally (`npm install -g pnpm`).
-3.  **Dependencies**: Install project dependencies using `pnpm install`.
-4.  **Development Server**: Run `pnpm dev` to start the Express server with `tsx watch` for live reloading.
-5.  **Build**: Use `pnpm build` to compile TypeScript to JavaScript (`dist/` directory).
-6.  **Start Production**: Run `pnpm start` to execute the compiled JavaScript.
+1.  **Node.js**: Ensure Node.js is installed (version compatible with Express.js v5 and TypeScript v7)
+2.  **pnpm**: Install pnpm globally (`npm install -g pnpm`)
+3.  **Dependencies**: Install project dependencies using `pnpm install`
+4.  **Migrations**: Run `pnpm migrate` to apply database schema changes
+5.  **Seeding**: Run `pnpm seed` to populate initial rate limit configurations
+6.  **Development Server**: Run `pnpm dev` to start the Express server with `tsx watch` for live reloading
+7.  **Build**: Use `pnpm build` to compile TypeScript to JavaScript (`dist/` directory)
+8.  **Start Production**: Run `pnpm start` to execute the compiled JavaScript
 
 ## Technical Constraints
 
@@ -55,9 +59,11 @@
 
 ## Tool Usage Patterns
 
-- **`pnpm`**: Used for all package management operations (install, add, remove).
-- **`tsx`**: Used for running development server and scripts directly in TypeScript.
-- **`tsc`**: Used for compiling the project into JavaScript for production deployment.
-- **`eslint`**: Used for static code analysis and enforcing code style.
-- **`prettier`**: Used for automatic code formatting.
-- **`docker-compose`**: Used for managing multi-container Docker applications.
+- **`pnpm`**: Used for all package management operations (install, add, remove)
+- **`tsx`**: Used for running development server and scripts directly in TypeScript
+- **`tsc`**: Used for compiling the project into JavaScript for production deployment
+- **`eslint`**: Used for static code analysis and enforcing code style
+- **`prettier`**: Used for automatic code formatting
+- **`docker-compose`**: Used for managing multi-container Docker applications
+- **Migration Scripts**: `pnpm migrate` applies database schema changes
+- **Seed Script**: `pnpm seed` populates initial test configurations

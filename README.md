@@ -47,7 +47,7 @@ To get started with the project, you can use Docker Compose for a quick setup of
 Environment variables are validated at startup:
 
 - `REDIS_URL`: Redis connection string
-- `PG_URL`: PostgreSQL connection string
+- `DATABASE_URL`: PostgreSQL connection string
 - `RATE_LIMIT_WINDOW_MS`: Time window in milliseconds (default: 60000)
 - `RATE_LIMIT_MAX_REQUESTS`: Max requests per window (default: 100)
 

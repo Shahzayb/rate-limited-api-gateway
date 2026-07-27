@@ -30,6 +30,11 @@ graph TD
 
 - **Environment Variables**: Configuration is loaded from env files (e.g., `.env.development`) using `dotenv`. This provides environment-specific settings for sensitive data like database connection strings.
 - **Zod Validation**: Environment variables are validated at application startup using Zod to ensure all required configurations are present and correctly formatted, preventing runtime errors due to missing or malformed settings.
+- **Configuration Loader**: Implements a three-tier configuration system:
+  1. Redis cache (5-minute TTL)
+  2. PostgreSQL database
+  3. Environment variable fallback
+- **Per-Endpoint Configuration**: Supports endpoint-specific rate limits via environment variables
 
 ## Design Patterns in Use
 
@@ -47,6 +52,7 @@ graph TD
 
 ## Critical Implementation Paths
 
-1.  **Atomic Redis Operations**: The implementation of the Lua script for atomically checking and incrementing request counts within the sliding window is the most critical part to ensure correctness under concurrency.
-2.  **`Retry-After` Header Calculation**: Accurate calculation of the `Retry-After` value is crucial for client-side handling of rate limits.
-3.  **API Key Extraction**: Secure and reliable extraction of the API key from incoming requests.
+1.  **Configuration Loading**: The three-tier configuration loader is critical for efficient rate limit management
+2.  **Atomic Redis Operations**: The implementation of the Lua script for atomically checking and incrementing request counts within the sliding window is the most critical part to ensure correctness under concurrency
+3.  **Header Management**: Accurate calculation of `X-RateLimit-*` headers and `Retry-After` values
+4.  **API Key Extraction**: Secure and reliable extraction of the API key from incoming requests

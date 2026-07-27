@@ -1,0 +1,5 @@
+services:
+  node_server:
+    build:
+      target: runner # Uses the production target stage
+    command: node dist/index.js # Explicitly run the compiled binary

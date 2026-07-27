@@ -10,6 +10,10 @@ app.get('/', ratelimit, (req: Request, res: Response) => {
   res.send('Hello New World!');
 });
 
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 const startServer = async () => {
   await connectRedis();
   await connectPostgres();

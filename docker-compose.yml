@@ -50,13 +50,21 @@ services:
       - .:/app # Mount local files for hot reloading
       - /app/node_modules # Protect container node_modules from host overrides
     working_dir: /app
-    entrypoint: []
     command: sh -c "pnpm install && pnpm run dev"
     depends_on:
       postgres_db:
         condition: service_healthy
       redis_cache:
         condition: service_healthy
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: package.json
 
 volumes:
   gw_pgdata:

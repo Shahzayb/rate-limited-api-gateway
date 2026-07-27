@@ -9,6 +9,8 @@ RUN CI=true pnpm install --frozen-lockfile
 
 COPY . .
 
+RUN pnpm run build
+
 # Production build target
 FROM node:24-alpine AS runner
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0 CI=true

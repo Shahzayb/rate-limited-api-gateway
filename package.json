@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "docker:up": "docker-compose up",
+    "docker:up:prod": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
     "docker:build": "docker-compose build",

@@ -2,11 +2,9 @@
   "name": "rate-limited-api-gateway",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts --env-file=.env",
+    "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start:local": "node --env-file=.env dist/index.js",
     "start": "node dist/index.js",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts,.tsx",
@@ -24,17 +22,21 @@
   },
   "type": "module",
   "dependencies": {
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "pg": "^8.22.0",
-    "redis": "^6.1.0"
+    "redis": "^6.1.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/css": "^1.4.0",
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^2.0.1",
     "@eslint/markdown": "^8.0.3",
+    "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
+    "@types/pg": "^8.20.0",
     "eslint": "^10.7.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.7.0",

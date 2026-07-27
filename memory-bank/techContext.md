@@ -3,6 +3,7 @@
 ## Technologies Used
 
 - **Runtime**: Node.js (ES Modules)
+- **Environment Variables**: dotenv (v17.4.2) - For loading environment variables from .env files.
 - **Web Framework**: Express.js (v5.2.1)
 - **Language**: TypeScript (v7.0.2)
 - **Package Manager**: pnpm (v11.17.0)
@@ -20,7 +21,7 @@
 3.  **Dependencies**: Install project dependencies using `pnpm install`.
 4.  **Development Server**: Run `pnpm dev` to start the Express server with `tsx watch` for live reloading.
 5.  **Build**: Use `pnpm build` to compile TypeScript to JavaScript (`dist/` directory).
-6.  **Start Production**: Run `pnpm start:local` (with .env file) or `pnpm start` (without loading the .env file) to execute the compiled JavaScript.
+6.  **Start Production**: Run `pnpm start` to execute the compiled JavaScript.
 
 ## Technical Constraints
 
@@ -29,12 +30,15 @@
 
 ## Dependencies (from `package.json`)
 
+- `dotenv`: Loads environment variables from .env files.
 - `express`: Web framework.
 - `redis`: Cache
 - `pg`: PostgreSQL
+- `zod`: Schema validation library.
 - `typescript`: Language support.
 - `@types/express`: Type definitions for Express.
 - `@types/node`: Type definitions for Node.js.
+- `@types/pg`: Type definitions for PostgreSQL.
 - `eslint`, `eslint-config-prettier`, `eslint-plugin-prettier`, `eslint-plugin-simple-import-sort`, `eslint-plugin-unused-imports`, `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`: Linting and formatting tools.
 - `prettier`: Code formatter.
 - `tsx`: TypeScript execution for development.

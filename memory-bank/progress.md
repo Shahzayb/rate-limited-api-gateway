@@ -9,9 +9,6 @@
 
 ## What's Left to Build
 
-- **ENV Setup**: create .env file and load it.
-- **PostgreSQL Integration**: Connect with the pg server.
-- **Redis Integration**: Connect with the redis server.
 - **Docker**: Set up every server/service (redis, postgres, express, etc) inside docker.
 - **Middleware**: The current rate limiting middleware uses placeholder functions. Actual integration with a Redis client is required.
 - **Atomic Rate Limiting Logic**: The core sliding-window logic, including atomic operations using Redis Lua scripting, needs to be implemented.
@@ -24,7 +21,7 @@
 
 ## Current Status
 
-The project is in the initial setup phase. The foundational project context has been documented in the Memory Bank, and the basic Express application structure is ready. The critical rate limiting logic and Redis integration are yet to be implemented.
+The project has successfully established connections to Redis and PostgreSQL, and environment variable loading is configured using `dotenv`. The foundational project context has been documented in the Memory Bank, and the basic Express application structure is ready. The critical rate limiting logic and Redis integration are the next major steps.
 
 ## Known Issues
 

@@ -26,6 +26,11 @@ graph TD
 5.  **API Key Based Limiting**: Allows for granular control and differentiation of rate limits per consumer.
 6.  **Per-Endpoint Configuration**: Enables flexible rate limit policies based on the sensitivity or resource intensity of specific API endpoints.
 
+## Configuration Management
+
+- **Environment Variables**: Configuration is loaded from `.env` files (e.g., `.env.development`, `.env.production`) using Node.js's native `--env-file` flag. This provides environment-specific settings for sensitive data like database connection strings.
+- **Zod Validation**: Environment variables are validated at application startup using Zod to ensure all required configurations are present and correctly formatted, preventing runtime errors due to missing or malformed settings.
+
 ## Design Patterns in Use
 
 - **Middleware Pattern**: Express.js inherently uses this pattern for request processing, allowing the rate limiter to be plugged in seamlessly.
@@ -36,8 +41,9 @@ graph TD
 
 - **Express Application**: Orchestrates the request flow and integrates the middleware.
 - **Rate Limiting Middleware**: The core logic component, responsible for applying rate limiting rules.
-- **Redis Client**: Communicates with the Redis server to store and retrieve rate limiting data. This component will encapsulate the Lua script execution.
-- **Configuration Module**: Provides rate limit rules (limits, window sizes) to the middleware, potentially dynamically.
+- **Redis Client**: Communicates with the Redis server to store and retrieve rate limiting data.
+- **PostgreSQL Client Pool**: Manages connections to the PostgreSQL database for storing and retrieving rate limit configurations and other persistent data.
+- **Configuration Module**: Loads and validates environment-specific settings, providing a centralized source of truth for application configuration.
 
 ## Critical Implementation Paths
 

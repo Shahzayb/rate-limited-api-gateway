@@ -2,11 +2,13 @@
 
 ## Current Work Focus
 
-- ENV Setup
-- Connect with the redis server using `node-redis` (already installed).
-- Connect with the postgres server using `pg` library (already installed).
+- ENV Setup (Completed)
+- Connect with the Redis server using `node-redis` (Completed)
+- Connect with the PostgreSQL server using `pg` library (Completed)
 
 ## Recent Changes
+
+- **Service Integration**: Implemented environment variable loading using `dotenv`, Redis client connection, and PostgreSQL connection pooling. Configured graceful shutdown for both services.
 
 - **Memory Bank Initialization**: The `memory-bank` directory and initial core files (`projectbrief.md`, `productContext.md`) have been created and populated.
 - **Codebase Analysis**: An initial analysis of `src/index.ts`, `src/middlewares/ratelimit.ts`, `package.json`, `tsconfig.json`, and `pnpm-lock.yaml` has been performed to extract architectural, technical, and implementation details.
@@ -16,7 +18,7 @@
 
 ## Next Steps
 
-1.  Begin planning the implementation of the Redis integration and atomic operations for the rate limiting middleware.
+1.  Proceed with planning the implementation of Redis integration and atomic operations for the rate limiting middleware, now that the connections are established.
 
 ## Active Decisions and Considerations
 

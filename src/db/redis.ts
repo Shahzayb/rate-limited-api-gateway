@@ -16,7 +16,7 @@ export async function connectRedis() {
 
 export async function disconnectRedis() {
   if (redisClient.isOpen) {
-    await redisClient.disconnect();
+    redisClient.destroy();
     console.log('Disconnected from Redis');
   }
 }

@@ -1,0 +1,55 @@
+# Rate-Limited API Gateway
+
+Express.js middleware implementing a sliding-window rate limiter using Redis with atomic operations.
+
+## Features
+
+- Sliding-window rate limiting algorithm
+- Redis backend with Lua scripting for atomic operations
+- API key based identification (x-api-key header)
+- Per-endpoint rate limit configuration
+- 429 Too Many Requests responses with Retry-After headers
+
+## Quick Start
+
+1. Install dependencies: `pnpm install`
+2. Create `.env.development` file with environment variables:
+   ```
+   REDIS_URL=redis://localhost:6379
+   PG_URL=postgres://user:password@localhost:5432/db
+   ```
+3. Start development server: `pnpm dev`
+
+## Scripts
+
+- `pnpm dev`: Start development server with live reload
+- `pnpm build`: Compile TypeScript to JavaScript
+- `pnpm start`: Run production server
+- `pnpm format`: Format code with Prettier
+- `pnpm lint`: Run ESLint
+
+## Configuration
+
+Environment variables are validated at startup:
+
+- `REDIS_URL`: Redis connection string
+- `PG_URL`: PostgreSQL connection string
+- `RATE_LIMIT_WINDOW_MS`: Time window in milliseconds (default: 60000)
+- `RATE_LIMIT_MAX_REQUESTS`: Max requests per window (default: 100)
+
+## Architecture
+
+```mermaid
+graph TD
+    A[Client] --> B(API Gateway - Express.js)
+    B --> C{Rate Limiting Middleware}
+    C --> D[Redis)
+    D --> C
+    C -- Allowed --> E[API Endpoint Logic]
+    C -- Rate Limited --> F[429 Too Many Requests]
+    E --> B
+    F --> B
+    B --> A
+```
+
+For detailed documentation, see the [Memory Bank](memory-bank/) files.

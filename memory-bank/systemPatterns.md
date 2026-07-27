@@ -28,7 +28,7 @@ graph TD
 
 ## Configuration Management
 
-- **Environment Variables**: Configuration is loaded from `.env` files (e.g., `.env.development`, `.env.production`) using Node.js's native `--env-file` flag. This provides environment-specific settings for sensitive data like database connection strings.
+- **Environment Variables**: Configuration is loaded from env files (e.g., `.env.development`) using `dotenv`. This provides environment-specific settings for sensitive data like database connection strings.
 - **Zod Validation**: Environment variables are validated at application startup using Zod to ensure all required configurations are present and correctly formatted, preventing runtime errors due to missing or malformed settings.
 
 ## Design Patterns in Use

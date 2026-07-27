@@ -37,19 +37,4 @@ Environment variables are validated at startup:
 - `RATE_LIMIT_WINDOW_MS`: Time window in milliseconds (default: 60000)
 - `RATE_LIMIT_MAX_REQUESTS`: Max requests per window (default: 100)
 
-## Architecture
-
-```mermaid
-graph TD
-    A[Client] --> B(API Gateway - Express.js)
-    B --> C{Rate Limiting Middleware}
-    C --> D[Redis)
-    D --> C
-    C -- Allowed --> E[API Endpoint Logic]
-    C -- Rate Limited --> F[429 Too Many Requests]
-    E --> B
-    F --> B
-    B --> A
-```
-
 For detailed documentation, see the [Memory Bank](memory-bank/) files.

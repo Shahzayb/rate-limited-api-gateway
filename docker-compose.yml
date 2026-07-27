@@ -1,0 +1,55 @@
+services:
+  postgres_db:
+    image: postgres:18-alpine
+    container_name: gateway_postgres
+    env_file: .env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - gw_pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis_cache:
+    image: redis:8-alpine
+    container_name: gateway_redis
+    env_file: .env
+    command: redis-server --requirepass ${REDIS_PASSWORD:-default_secure_pass}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - gw_redisdata:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a ${REDIS_PASSWORD:-default_secure_pass} ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  node_server:
+    build:
+      context: .
+      target: builder # Stop at builder stage so dev dependencies are present
+    container_name: gateway_node_server
+    env_file: .env
+    environment:
+      - CI=true
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    volumes:
+      - .:/app # Mount local files for hot reloading
+      - /app/node_modules # Protect container node_modules from host overrides
+    working_dir: /app
+    entrypoint: []
+    command: sh -c "pnpm install && pnpm run dev"
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+      redis_cache:
+        condition: service_healthy
+
+volumes:
+  gw_pgdata:
+  gw_redisdata:

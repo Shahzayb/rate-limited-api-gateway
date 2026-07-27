@@ -2,6 +2,7 @@
 
 ## What Works
 
+- **Docker Compose Setup**: Docker Compose is configured for Redis, PostgreSQL, and the Node.js server, with environment variables loaded from a `.env` file.
 - **Project Structure**: The basic Express.js project structure is in place, including `src/index.ts` for the main application and `src/middlewares/ratelimit.ts` for the rate limiting middleware.
 - **Middleware Scaffolding**: The `ratelimit.ts` file contains placeholder functions for rate limiting logic, including `updateRequestWindow`, `getRequestWindow`, and `getRateLimitConfig`.
 - **Configuration**: `package.json`, `tsconfig.json`, and ESLint/Prettier configurations are set up for a modern TypeScript development environment.
@@ -9,7 +10,6 @@
 
 ## What's Left to Build
 
-- **Docker**: Set up every server/service (redis, postgres, express, etc) inside docker.
 - **Middleware**: The current rate limiting middleware uses placeholder functions. Actual integration with a Redis client is required.
 - **Atomic Rate Limiting Logic**: The core sliding-window logic, including atomic operations using Redis Lua scripting, needs to be implemented.
 - **API Key Extraction**: Implement robust extraction of the API key from incoming requests.

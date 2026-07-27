@@ -2,6 +2,7 @@
 
 ## Technologies Used
 
+- **Containerization**: Docker, Docker Compose
 - **Runtime**: Node.js (ES Modules)
 - **Environment Variables**: dotenv (v17.4.2) - For loading environment variables from .env files.
 - **Web Framework**: Express.js (v5.2.1)
@@ -15,6 +16,15 @@
 - **Load Testing (Planned)**: autocannon - For simulating concurrent requests to test the rate limiter.
 
 ## Development Setup
+
+### Using Docker Compose
+
+1.  Ensure Docker and Docker Compose are installed.
+2.  Copy `.env.template` to `.env`: `cp .env.template .env`.
+3.  Start services: `docker-compose up --build -d`.
+4.  Stop services: `docker-compose down`.
+
+### Manual Setup
 
 1.  **Node.js**: Ensure Node.js is installed (version compatible with Express.js v5 and TypeScript v7).
 2.  **pnpm**: Install pnpm globally (`npm install -g pnpm`).
@@ -50,3 +60,4 @@
 - **`tsc`**: Used for compiling the project into JavaScript for production deployment.
 - **`eslint`**: Used for static code analysis and enforcing code style.
 - **`prettier`**: Used for automatic code formatting.
+- **`docker-compose`**: Used for managing multi-container Docker applications.

@@ -12,12 +12,22 @@ Express.js middleware implementing a sliding-window rate limiter using Redis wit
 
 ## Quick Start
 
+To get started with the project, you can use Docker Compose for a quick setup of all services (PostgreSQL, Redis, and the Node.js server).
+
+### Using Docker Compose
+
+1. Ensure you have Docker and Docker Compose installed.
+2. Create a `.env` file in the root directory by copying `.env.template`:
+   `cp .env.template .env`
+3. Start the services:
+   `docker-compose up --build -d`
+4. To stop the services:
+   `docker-compose down`
+
+### Manual Setup (without Docker Compose)
+
 1. Install dependencies: `pnpm install`
-2. Create `.env.development` file with environment variables:
-   ```
-   REDIS_URL=redis://localhost:6379
-   PG_URL=postgres://user:password@localhost:5432/db
-   ```
+2. Create `.env` file with environment variables (refer to `.env.template` for required variables).
 3. Start development server: `pnpm dev`
 
 ## Scripts
@@ -27,6 +37,10 @@ Express.js middleware implementing a sliding-window rate limiter using Redis wit
 - `pnpm start`: Run production server
 - `pnpm format`: Format code with Prettier
 - `pnpm lint`: Run ESLint
+- `pnpm docker:up`: Start Docker Compose services in detached mode
+- `pnpm docker:down`: Stop and remove Docker Compose services
+- `pnpm docker:logs`: View logs for Docker Compose services
+- `pnpm docker:build`: Build Docker images for services
 
 ## Configuration
 

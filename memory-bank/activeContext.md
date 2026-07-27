@@ -2,9 +2,7 @@
 
 ## Current Work Focus
 
-- ENV Setup (Completed)
-- Connect with the Redis server using `node-redis` (Completed)
-- Connect with the PostgreSQL server using `pg` library (Completed)
+- Docker compose setup for redis, postgres, and the server with env
 
 ## Recent Changes
 

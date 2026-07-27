@@ -4,7 +4,7 @@ import { config } from '../config.js';
 const { Pool } = pg;
 
 const pool = new Pool({
-  connectionString: config.PG_URL,
+  connectionString: config.DATABASE_URL,
 });
 
 pool.on('error', (err) => {

@@ -37,36 +37,6 @@ services:
       timeout: 5s
       retries: 5
 
-  node_server:
-    build:
-      context: .
-      target: builder # Stop at builder stage so dev dependencies are present
-    container_name: gateway_node_server
-    env_file: .env
-    environment:
-      - CI=true
-    ports:
-      - "${PORT:-3000}:${PORT:-3000}"
-    volumes:
-      - .:/app # Mount local files for hot reloading
-      - /app/node_modules # Protect container node_modules from host overrides
-    working_dir: /app
-    command: sh -c "pnpm install && pnpm run dev"
-    depends_on:
-      postgres_db:
-        condition: service_healthy
-      redis_cache:
-        condition: service_healthy
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /app/src
-          ignore:
-            - node_modules
-        - action: rebuild
-          path: package.json
-
 volumes:
   gw_pgdata:
   gw_redisdata:

@@ -39,7 +39,6 @@
 
 ## Technical Constraints
 
-- **Redis Dependency**: A running Redis instance is required for the rate limiter to function correctly. Connection details will need to be configured (e.g., via environment variables).
 - **API Key Requirement**: The middleware expects an `x-api-key` header for identifying clients. Requests without this header will need to be handled (e.g., rejected or assigned a default, very low limit).
 
 ## Dependencies (from `package.json`)

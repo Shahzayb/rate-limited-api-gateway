@@ -13,7 +13,7 @@
 - **Formatting**: Prettier (v3.9.6) - Integrated with ESLint for consistent code style.
 - **Data Store**: Redis (v6.1.0) - For storing rate limiting data (timestamps, counts).
 - **Database**: PostgreSQL (v8.22.0)
-- **Load Testing (Planned)**: autocannon - For simulating concurrent requests to test the rate limiter.
+- **Load Testing**: k6 - For simulating concurrent requests to test the rate limiter. Runs via Docker container with custom test scripts.
 
 ## Development Setup
 
@@ -58,6 +58,13 @@
 
 ## Tool Usage Patterns
 
+### k6 Testing
+
+- `pnpm k6:run`: Runs k6 tests using default configuration
+- `pnpm k6:test`: Executes specific test script (scripts/test.js)
+- Tests validate rate limiter behavior under concurrent load
+- Uses custom metrics to track successful (200) and rate-limited (429) responses
+
 - **`pnpm`**: Used for all package management operations (install, add, remove)
 - **`tsx`**: Used for running development server and scripts directly in TypeScript
 - **`tsc`**: Used for compiling the project into JavaScript for production deployment
@@ -66,3 +73,4 @@
 - **`docker compose`**: Used for managing multi-container Docker applications
 - **Migration Scripts**: `pnpm migrate` applies database schema changes
 - **Seed Script**: `pnpm seed` populates initial test configurations
+- **K6 Tests**: Use `pnpm k6:run` and `pnpm k6:test` to run concurrency tests.

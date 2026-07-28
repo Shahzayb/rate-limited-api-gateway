@@ -3,13 +3,13 @@
 ## Current Work
 
 - Implementing atomic Redis operations for rate limiter
-- Addressing concurrency handling in `ratelimit.ts`
 
 ## Next Priorities
 
 1. Develop Redis EVAL scripts for atomic operations
-2. Implement concurrency testing with autocannon
+2. Address concurrency handling in `ratelimit.ts`
 3. Define error handling strategies for Redis failures
+4. Validate atomic implementation with k6 tests
 
 ## Key Patterns
 
@@ -19,5 +19,6 @@
 
 ## Recent Insights
 
+- k6 testing validated rate limiter behavior under concurrent load
 - Current middleware structure needs atomic Redis integration
-- Autocannon testing crucial for validation
+- Redis Lua scripting essential for atomic operations

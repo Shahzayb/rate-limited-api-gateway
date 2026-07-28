@@ -37,9 +37,15 @@ export async function ratelimit(req: Request, res: Response, next: NextFunction)
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 
+  console.log(`Rate limit config for API key ${apiKey} and path ${path}:`, rateLimitConfig);
+
   const currentRequests = await getRequestWindow(apiKey, path);
 
+  console.log(`Current requests for API key ${apiKey} and path ${path}:`, currentRequests);
+
   const remainingRequests = Math.max(0, rateLimitConfig.maxRequests - currentRequests);
+
+  console.log(`Remaining requests for API key ${apiKey} and path ${path}:`, remainingRequests);
 
   res.setHeader('X-RateLimit-Limit', rateLimitConfig.maxRequests);
   res.setHeader('X-RateLimit-Remaining', remainingRequests);

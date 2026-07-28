@@ -30,9 +30,36 @@ graph TD
 - Middleware: Rate limiting logic
 - Redis: State management
 - PostgreSQL: Persistent configuration storage
+- k6: Ratelimiting tests
 
 ## Critical Paths
 
 1. Atomic Redis operations
 2. Configuration loading
 3. Header management
+
+## Concurrent Testing Pattern
+
+We use k6 for concurrent request testing to validate the rate limiter:
+
+```mermaid
+sequenceDiagram
+    participant k6 as k6 Test Runner
+    participant Gateway as API Gateway
+    participant Redis
+
+    k6->>Gateway: Concurrent Requests (30 VUs)
+    Gateway->>Redis: INCR ratelimit:key:path
+    Redis-->>Gateway: Current Count
+    alt Count <= Max Requests
+        Gateway-->>k6: 200 OK
+    else Count > Max Requests
+        Gateway-->>k6: 429 Too Many Requests
+    end
+```
+
+Key characteristics:
+
+- Simulates 30 concurrent users hitting the API simultaneously
+- Validates exactly 10 successful requests per window
+- Ensures Redis counters increment atomically without race conditions

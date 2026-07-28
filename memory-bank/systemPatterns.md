@@ -1,8 +1,8 @@
 # System Patterns: Rate-Limited API Gateway
 
-## System Architecture
+## Architecture
 
-The rate-limited API gateway will be built as an Express.js application, leveraging middleware for request processing. Redis will serve as the external, high-performance data store for managing rate limiting state.
+Express.js application with Redis for rate limiting state.
 
 ```mermaid
 graph TD
@@ -17,42 +17,22 @@ graph TD
     B --> A
 ```
 
-## Key Technical Decisions
+## Key Decisions
 
-1.  **Sliding Window Algorithm**: Chosen for its accuracy in reflecting real-time usage compared to fixed windows, and better resource utilization than token bucket for bursty traffic.
-2.  **Redis for State Management**: Selected for its speed, in-memory data structures, and native support for atomic operations (Lua scripting).
-3.  **Redis Lua Scripting (`EVAL`)**: Essential for ensuring atomicity in read-then-write operations to prevent race conditions in a concurrent environment. This is critical for accurate rate limiting.
-4.  **Express.js Middleware**: Provides a clean and standard way to intercept requests and apply rate limiting logic before they reach the main API handlers.
-5.  **API Key Based Limiting**: Allows for granular control and differentiation of rate limits per consumer.
-6.  **Per-Endpoint Configuration**: Enables flexible rate limit policies based on the sensitivity or resource intensity of specific API endpoints.
-
-## Configuration Management
-
-- **Environment Variables**: Configuration is loaded from env files (e.g., `.env.development`) using `dotenv`. This provides environment-specific settings for sensitive data like database connection strings.
-- **Zod Validation**: Environment variables are validated at application startup using Zod to ensure all required configurations are present and correctly formatted, preventing runtime errors due to missing or malformed settings.
-- **Configuration Loader**: Implements a three-tier configuration system:
-  1. Redis cache (5-minute TTL)
-  2. PostgreSQL database
-  3. Environment variable fallback
-- **Per-Endpoint Configuration**: Supports endpoint-specific rate limits via environment variables
-
-## Design Patterns in Use
-
-- **Middleware Pattern**: Express.js inherently uses this pattern for request processing, allowing the rate limiter to be plugged in seamlessly.
-- **Strategy Pattern (Implicit)**: Different rate limiting algorithms (though only sliding window is implemented here) could be seen as strategies. The current implementation focuses on one specific strategy.
-- **Circuit Breaker (Future Consideration)**: While not directly part of the rate limiter, a circuit breaker pattern could complement it by preventing repeated calls to an already overloaded service.
+1. Sliding window algorithm for accuracy
+2. Redis for performance and atomic operations
+3. Lua scripting for atomicity
+4. API key-based and per-endpoint limiting
 
 ## Component Relationships
 
-- **Express Application**: Orchestrates the request flow and integrates the middleware.
-- **Rate Limiting Middleware**: The core logic component, responsible for applying rate limiting rules.
-- **Redis Client**: Communicates with the Redis server to store and retrieve rate limiting data.
-- **PostgreSQL Client Pool**: Manages connections to the PostgreSQL database for storing and retrieving rate limit configurations and other persistent data.
-- **Configuration Module**: Loads and validates environment-specific settings, providing a centralized source of truth for application configuration.
+- Express: Request flow orchestration
+- Middleware: Rate limiting logic
+- Redis: State management
+- PostgreSQL: Persistent configuration storage
 
-## Critical Implementation Paths
+## Critical Paths
 
-1.  **Configuration Loading**: The three-tier configuration loader is critical for efficient rate limit management
-2.  **Atomic Redis Operations**: The implementation of the Lua script for atomically checking and incrementing request counts within the sliding window is the most critical part to ensure correctness under concurrency
-3.  **Header Management**: Accurate calculation of `X-RateLimit-*` headers and `Retry-After` values
-4.  **API Key Extraction**: Secure and reliable extraction of the API key from incoming requests
+1. Atomic Redis operations
+2. Configuration loading
+3. Header management

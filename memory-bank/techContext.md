@@ -21,10 +21,10 @@
 
 1.  Ensure Docker and Docker Compose are installed
 2.  Copy `.env.template` to `.env`: `cp .env.template .env`
-3.  Start services: `docker-compose up --build -d`
+3.  Start services: `docker compose up --build -d`
 4.  Run migrations: `docker compose exec node_server pnpm run migrate`
 5.  Seed data: `docker compose exec node_server pnpm run seed`
-6.  Stop services: `docker-compose down`
+6.  Stop services: `docker compose down`
 
 ### Manual Setup
 
@@ -64,6 +64,6 @@
 - **`tsc`**: Used for compiling the project into JavaScript for production deployment
 - **`eslint`**: Used for static code analysis and enforcing code style
 - **`prettier`**: Used for automatic code formatting
-- **`docker-compose`**: Used for managing multi-container Docker applications
+- **`docker compose`**: Used for managing multi-container Docker applications
 - **Migration Scripts**: `pnpm migrate` applies database schema changes
 - **Seed Script**: `pnpm seed` populates initial test configurations

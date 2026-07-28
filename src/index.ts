@@ -5,6 +5,7 @@ import { config } from './config.js';
 import { ratelimit } from './middlewares/ratelimit.js';
 import { connectRedis, disconnectRedis } from './db/redis.js';
 import { connectPostgres, disconnectPostgres } from './db/postgres.js';
+import { asyncLocalStorage } from './logger.js';
 
 const app: Express = express();
 
@@ -13,6 +14,13 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  const requestId = req.headers['x-request-id'] || crypto.randomUUID();
+  asyncLocalStorage.run({ requestId }, () => {
+    next();
+  });
+});
 
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'ok' });

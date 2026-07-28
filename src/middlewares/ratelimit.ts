@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import redisClient from '../db/redis.js';
 import { getRateLimitConfig } from '../utils/rateLimitConfigLoader.js';
+import { logger } from '../logger.js';
 
 async function updateRequestWindow(apiKey: string, path: string, windowSeconds: number) {
   const key = `ratelimit:${apiKey}:${path}`;
@@ -37,15 +38,13 @@ export async function ratelimit(req: Request, res: Response, next: NextFunction)
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 
-  console.log(`Rate limit config for API key ${apiKey} and path ${path}:`, rateLimitConfig);
-
   const currentRequests = await getRequestWindow(apiKey, path);
 
-  console.log(`Current requests for API key ${apiKey} and path ${path}:`, currentRequests);
+  logger.info({ currentRequests }, `Current requests for API key ${apiKey} and path ${path}:`);
 
   const remainingRequests = Math.max(0, rateLimitConfig.maxRequests - currentRequests);
 
-  console.log(`Remaining requests for API key ${apiKey} and path ${path}:`, remainingRequests);
+  logger.info({ remainingRequests }, `Remaining requests for API key ${apiKey} and path ${path}:`);
 
   res.setHeader('X-RateLimit-Limit', rateLimitConfig.maxRequests);
   res.setHeader('X-RateLimit-Remaining', remainingRequests);

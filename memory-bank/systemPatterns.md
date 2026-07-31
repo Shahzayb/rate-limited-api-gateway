@@ -31,6 +31,7 @@ graph TD
 - Redis: State management
 - PostgreSQL: Persistent configuration storage
 - k6: Ratelimiting tests
+- Vitest: Unit testing
 
 ## Critical Paths
 
@@ -63,3 +64,27 @@ Key characteristics:
 - Simulates 30 concurrent users hitting the API simultaneously
 - Validates exactly 10 successful requests per window
 - Ensures Redis counters increment atomically without race conditions
+
+## Unit Testing Pattern
+
+We use Vitest for unit testing individual components and middleware:
+
+```mermaid
+sequenceDiagram
+    participant TestRunner as Vitest Test Runner
+    participant Middleware as Rate Limiting Middleware
+    participant Mocks as Mocked Dependencies
+
+    TestRunner->>Middleware: Call middleware with mock req, res, next
+    Middleware->>Mocks: Call mocked getRateLimitConfig
+    Mocks-->>Middleware: Return mock config
+    Middleware->>Mocks: Call mocked checkAndUpdateRateLimit
+    Mocks-->>Middleware: Return mock rate limit status
+    Middleware-->>TestRunner: Assert on res.status, res.json, res.setHeader, next
+```
+
+Key characteristics:
+
+- Isolates the middleware logic from external dependencies.
+- Uses `vi.mock` to control the behavior of `getRateLimitConfig` and `checkAndUpdateRateLimit`.
+- Asserts on Express `res` object methods (`status`, `json`, `setHeader`) and `next` function calls.

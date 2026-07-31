@@ -14,6 +14,7 @@
 - **Data Store**: Redis (v6.1.0) - For storing rate limiting data (timestamps, counts) and executing atomic Lua scripts.
 - **Database**: PostgreSQL (v8.22.0)
 - **Load Testing**: k6 - For simulating concurrent requests to test the rate limiter. Runs via Docker container with custom test scripts.
+- **Unit Testing**: Vitest (v4.1.10) - For writing and running unit tests.
 
 ## Development Setup
 
@@ -64,6 +65,12 @@
 - `pnpm k6:test`: Executes specific test script (scripts/test.js)
 - Tests validate rate limiter behavior under concurrent load
 - Uses custom metrics to track successful (200) and rate-limited (429) responses
+
+### Vitest Testing
+
+- `pnpm test`: Runs all unit tests using Vitest.
+- Tests individual components and middleware in isolation.
+- Mocks dependencies to control test environment and outcomes.
 
 - **`pnpm`**: Used for all package management operations (install, add, remove)
 - **`tsx`**: Used for running development server and scripts directly in TypeScript

@@ -7,12 +7,12 @@ export async function ratelimit(req: Request, res: Response, next: NextFunction)
   const apiKey = req.headers['x-api-key'];
   const path = req.path;
 
-  if (typeof apiKey !== 'string') {
-    return res.status(400).json({ error: 'API key must be a string' });
-  }
-
   if (!apiKey) {
     return res.status(400).json({ error: 'API key is required' });
+  }
+
+  if (typeof apiKey !== 'string') {
+    return res.status(400).json({ error: 'API key must be a string' });
   }
 
   let rateLimitConfig;

@@ -34,6 +34,7 @@ pnpm docker:seed
 ## Test
 
 ```bash
+pnpm test
 pnpm k6:test
 ```
 

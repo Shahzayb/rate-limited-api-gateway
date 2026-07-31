@@ -1,6 +1,7 @@
 import { config, getEnvRateLimitConfig } from '../config.js';
 import redisClient from '../db/redis.js';
 import pgPool from '../db/postgres.js';
+import { logger } from '../logger.js';
 
 interface RateLimitConfig {
   maxRequests: number;
@@ -37,7 +38,7 @@ export async function getRateLimitConfig(apiKey: string, path: string): Promise<
       return dbConfig;
     }
   } catch (error) {
-    console.error('Error fetching rate limit config from DB:', error);
+    logger.error(error, 'Error fetching rate limit config from DB:');
     // Fallback to environment variables if DB query fails
   }
 

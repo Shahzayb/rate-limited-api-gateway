@@ -2,19 +2,13 @@
 
 ## Current Status
 
-Naive rate limiting middleware implemented.
+Atomic sliding-window rate limiting middleware implemented using Redis Lua scripting.
 k6 concurrency testing implemented and validated.
-Next: Implement atomic sliding-window operations.
 
 ## Active Development Items
 
-- Atomic Redis operations for rate limiting
-
 ## Known Issues
-
-- Race condition vulnerability in naive implementation
 
 ## Next Milestones
 
-1. Implement Redis Lua scripts for atomic operations
-2. Validate atomic implementation with k6 tests
+1. Further testing and optimization

@@ -11,7 +11,7 @@
 - **TypeScript Execution**: tsx (v4.23.1) - Used for development to run TypeScript files directly.
 - **Linting**: ESLint (v10.7.0) - Configured with TypeScript and Prettier integration.
 - **Formatting**: Prettier (v3.9.6) - Integrated with ESLint for consistent code style.
-- **Data Store**: Redis (v6.1.0) - For storing rate limiting data (timestamps, counts).
+- **Data Store**: Redis (v6.1.0) - For storing rate limiting data (timestamps, counts) and executing atomic Lua scripts.
 - **Database**: PostgreSQL (v8.22.0)
 - **Load Testing**: k6 - For simulating concurrent requests to test the rate limiter. Runs via Docker container with custom test scripts.
 

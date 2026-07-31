@@ -1,22 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
-import redisClient from '../db/redis.js';
 import { getRateLimitConfig } from '../utils/rateLimitConfigLoader.js';
 import { logger } from '../logger.js';
-
-async function updateRequestWindow(apiKey: string, path: string, windowSeconds: number) {
-  const key = `ratelimit:${apiKey}:${path}`;
-  const currentCount = await redisClient.incr(key);
-  if (currentCount === 1) {
-    await redisClient.expire(key, windowSeconds);
-  }
-  return currentCount;
-}
-
-async function getRequestWindow(apiKey: string, path: string) {
-  const key = `ratelimit:${apiKey}:${path}`;
-  const count = await redisClient.get(key);
-  return parseInt(count || '0', 10);
-}
+import { checkAndUpdateRateLimit } from '../utils/checkAndUpdateRatelimit.js';
 
 export async function ratelimit(req: Request, res: Response, next: NextFunction) {
   const apiKey = req.headers['x-api-key'];
@@ -34,13 +19,19 @@ export async function ratelimit(req: Request, res: Response, next: NextFunction)
   try {
     rateLimitConfig = await getRateLimitConfig(apiKey, path);
   } catch (error) {
-    console.error('Error fetching rate limit config:', error);
+    logger.error(error, 'Error fetching rate limit config:');
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 
-  const currentRequests = await getRequestWindow(apiKey, path);
+  const key = `ratelimit:${apiKey}:${path}`;
 
-  logger.info({ currentRequests }, `Current requests for API key ${apiKey} and path ${path}:`);
+  const { currentRequests, ttl } = await checkAndUpdateRateLimit(
+    key,
+    rateLimitConfig.maxRequests,
+    rateLimitConfig.windowSeconds
+  );
+
+  logger.info({ currentRequests, ttl }, `Current requests for API key ${apiKey} and path ${path}:`);
 
   const remainingRequests = Math.max(0, rateLimitConfig.maxRequests - currentRequests);
 
@@ -49,14 +40,11 @@ export async function ratelimit(req: Request, res: Response, next: NextFunction)
   res.setHeader('X-RateLimit-Limit', rateLimitConfig.maxRequests);
   res.setHeader('X-RateLimit-Remaining', remainingRequests);
 
-  if (currentRequests >= rateLimitConfig.maxRequests) {
-    const ttl = await redisClient.ttl(`ratelimit:${apiKey}:${path}`);
+  if (currentRequests > rateLimitConfig.maxRequests) {
     const retryAfter = ttl > 0 ? ttl : rateLimitConfig.windowSeconds;
     res.setHeader('Retry-After', retryAfter);
     return res.status(429).json({ error: 'Too Many Requests' });
   }
-
-  await updateRequestWindow(apiKey, path, rateLimitConfig.windowSeconds);
 
   next();
 }

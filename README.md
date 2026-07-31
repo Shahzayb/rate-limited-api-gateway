@@ -1,8 +1,10 @@
-# Rate-Limited API Gateway [![Built with AI](https://img.shields.io/badge/Built%20with-AI-%2300C4CC?style=flat-square)](<>)
+# Rate-Limited API Gateway
 
-Redis-backed sliding window rate limiter built using AI-assisted development. Features:
+Redis-backed sliding window rate limiter.
 
-- **Atomic Lua operations** (prevents race conditions)
+Features:
+
+- Atomic Lua operations (prevents race conditions)
 - Configurable limits
 - Redis persistence
 - Express middleware
@@ -14,11 +16,10 @@ Redis-backed sliding window rate limiter built using AI-assisted development. Fe
 - Progress tracking
 - Technical context
 
-**AI-Assisted Development**: This project was built using an AI workflow with:
+**Workflow**: AI-assisted development using:
 
-- Memory Bank for context tracking
-- Plan files for implementation blueprints
-- [Learn more about our AI workflow](/memory-bank/)
+- Memory Bank docs
+- Plan files (see `agents.md`)
 
 ## Setup
 

@@ -1,8 +1,10 @@
 import redisClient from '../db/redis.js';
 
-interface RateLimitResult {
-  currentRequests: number;
-  ttl: number;
+export interface RateLimitResult {
+  allowed: boolean;
+  current: number;
+  limit: number;
+  resetSeconds: number;
 }
 
 /**
@@ -13,18 +15,22 @@ export async function checkAndUpdateRateLimit(
   maxRequests: number,
   windowSeconds: number
 ): Promise<RateLimitResult> {
-  const [currentRequests, ttl] = await redisClient.rateLimit(
+  // Convert windowSeconds to windowMs for the Lua script
+  const windowMs = windowSeconds * 1000;
+
+  const { current, limit, oldestScore, now, allowed } = await redisClient.rateLimit(
     key,
-    maxRequests.toString(),
-    windowSeconds.toString()
+    maxRequests,
+    windowMs
   );
 
-  if (currentRequests === undefined || ttl === undefined) {
-    throw new Error('Failed to retrieve rate limit data from Redis');
-  }
+  // Calculate resetSeconds based on the oldest entry in the sliding window
+  const resetSeconds = Math.ceil(Math.max(0, oldestScore + windowMs - now) / 1000);
 
   return {
-    currentRequests: currentRequests,
-    ttl: ttl,
+    allowed,
+    current,
+    limit,
+    resetSeconds,
   };
 }

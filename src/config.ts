@@ -10,7 +10,7 @@ const envSchema = z.object({
   PORT: z.string().default('3000'),
   RATE_LIMIT_WINDOW: z.string().default('10'),
   RATE_LIMIT_MAX_REQUESTS: z.string().default('5'),
-  CACHE_TTL: z.string().default('300'), // 5 minutes
+  POLICY_CACHE_REFRESH_MS: z.string().default('30000'), // 30 seconds
 });
 
 try {
@@ -33,16 +33,5 @@ export const config = {
   PORT: process.env.PORT,
   RATE_LIMIT_WINDOW: parseInt(process.env.RATE_LIMIT_WINDOW || '10', 10),
   RATE_LIMIT_MAX_REQUESTS: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '5', 10),
-  CACHE_TTL: parseInt(process.env.CACHE_TTL || '300', 10),
+  POLICY_CACHE_REFRESH_MS: parseInt(process.env.POLICY_CACHE_REFRESH_MS || '30000', 10),
 };
-
-export function getEnvRateLimitConfig(path: string) {
-  const window = process.env[`RATE_LIMIT_${path.toUpperCase().replace(/[^A-Z0-9]/g, '_')}_WINDOW`];
-  const maxRequests =
-    process.env[`RATE_LIMIT_${path.toUpperCase().replace(/[^A-Z0-9]/g, '_')}_MAX_REQUESTS`];
-
-  return {
-    window: window ? parseInt(window, 10) : config.RATE_LIMIT_WINDOW,
-    maxRequests: maxRequests ? parseInt(maxRequests, 10) : config.RATE_LIMIT_MAX_REQUESTS,
-  };
-}

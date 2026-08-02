@@ -14,13 +14,26 @@ const rateLimitLua = fs.readFileSync(scriptPath, 'utf8');
 const rateLimit = defineScript({
   NUMBER_OF_KEYS: 1,
   SCRIPT: rateLimitLua,
-  parseCommand(parser, key, oldValue, newValue) {
+  parseCommand(parser, key: string, maxRequests: number, windowMs: number) {
     parser.pushKey(key);
-    parser.push(oldValue);
-    parser.push(newValue);
+    parser.push(maxRequests.toString());
+    parser.push(windowMs.toString());
   },
-  transformReply(reply: [number, number]): [number, number] {
-    return reply;
+  transformReply(reply: [number, number, number, number, number]): {
+    current: number;
+    limit: number;
+    oldestScore: number;
+    now: number;
+    allowed: boolean;
+  } {
+    const [current, limit, oldestScore, now, allowed] = reply;
+    return {
+      current,
+      limit,
+      oldestScore,
+      now,
+      allowed: allowed === 1,
+    };
   },
 });
 

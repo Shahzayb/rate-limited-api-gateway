@@ -6,6 +6,7 @@ import { ratelimit } from './middlewares/ratelimit.js';
 import { connectRedis, disconnectRedis } from './db/redis.js';
 import { connectPostgres, disconnectPostgres } from './db/postgres.js';
 import { asyncLocalStorage } from './logger.js';
+import { loadPolicyCache, stopPolicyCacheRefresh } from './utils/policyCache.js';
 
 const app: Express = express();
 
@@ -51,6 +52,7 @@ const startServer = async () => {
   try {
     await connectRedis();
     await connectPostgres();
+    await loadPolicyCache(); // Load policy cache after DB connections
 
     server = app.listen(config.PORT, () => {
       console.log(`Server is running on port ${config.PORT}`);
@@ -67,6 +69,7 @@ const shutdown = async (signal: string) => {
   if (server) {
     server.close(async () => {
       console.log('HTTP server closed.');
+      stopPolicyCacheRefresh(); // Stop policy cache refresh
       await disconnectRedis();
       await disconnectPostgres();
       console.log('Database connections closed.');

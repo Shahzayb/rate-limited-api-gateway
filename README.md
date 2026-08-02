@@ -1,6 +1,6 @@
 # Rate-Limited API Gateway
 
-Redis-backed sliding window rate limiter.
+Redis-backed fixed-window rate limiter.
 
 Features:
 

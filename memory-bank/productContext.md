@@ -16,7 +16,7 @@ Practical implementation of robust API gateway rate limiting.
 Express middleware that for each request:
 
 1. Identifies API key and endpoint
-2. Checks Redis for request count in sliding window
+2. Checks Redis for request count in the current fixed window (INCR against a counter key with TTL = window duration)
 3. Allows or blocks (429 + Retry-After) based on limits
 4. Atomically updates counts
 

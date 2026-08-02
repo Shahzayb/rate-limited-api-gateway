@@ -2,7 +2,7 @@
 
 ## Current Status
 
-Atomic sliding-window rate limiting middleware implemented using Redis Lua scripting.
+Atomic fixed-window rate limiting middleware implemented using Redis Lua scripting (INCR/EXPIRE/TTL).
 k6 concurrency testing implemented and validated.
 Unit tests for rate limiting middleware implemented using Vitest.
 

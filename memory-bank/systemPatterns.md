@@ -19,7 +19,7 @@ graph TD
 
 ## Key Decisions
 
-1. Sliding window algorithm for accuracy
+1. Fixed window algorithm (INCR + EXPIRE/TTL) for simplicity and performance
 2. Redis for performance and atomic operations, leveraging Lua scripting for true atomicity
 3. Lua scripting for atomicity
 4. API key-based and per-endpoint limiting

@@ -2,6 +2,10 @@
 
 This document outlines the purpose and usage of the Memory Bank and other documentation within this project.
 
+## Rules
+
+Check the `.clinerules` directory to find the must follow rules and general information.
+
 ## Memory Bank
 
 The Memory Bank, located in the `memory-bank/` directory, serves as the central repository for all project context, technical decisions, and ongoing progress. It is crucial for understanding the project's history, current state, and future direction.

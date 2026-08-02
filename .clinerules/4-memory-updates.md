@@ -5,3 +5,4 @@ When you finish a task, update memory bank as follows:
 - New or changed config/env var → techContext.md
 - Any of the above occurred? → also note it in progress.md
 - Otherwise → only update activeContext.md and progress.md
+- New plan file reference in the 'Plan Files Reference' section of productContext.md file
